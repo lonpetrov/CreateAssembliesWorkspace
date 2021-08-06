@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Cascade</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+
+<body>
+	<script type="text/javascript" src="debugger.js"></script>
+	<script type="text/javascript" src="lib/pfcUtils.js"></script>
+	<script type="text/javascript" src="lib/pfcTree.js"></script>
+	<script type="text/javascript" src="create.asm.js"></script>
+
+	<script>
+
+		function Cascade_wrapper() {
+			if (pfcIsMozilla())
+				netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+			try {
+                let cascadeStr = new createAsm('Сборка');
+                cascadeStr.FlushRetrievedModels();
+                cascadeStr.Cascade();
+			}
+			catch (err) {
+				alert("Exception occurred: " + pfcGetExceptionType(err));
+			}
+		}
+
+	</script>
+
+	<div class="bg-dark text-white p-2">
+		<h1>Execute</h1>
+		<input class="btn btn-danger m-1 p-2" type=button value="Создать сборку" id=button1 name=button1 onclick="Cascade_wrapper()">
+		<!--<input class="btn btn-danger m-1 p-2" type=button value="pfcTree" id=button2 name=button2 onclick="Tree_wrapper()">-->
+	</div>
+	<div id="debugging">
+		<h1>Debug:</h1>
+	</div>
+
+</body>
+
+</html>
