@@ -12,16 +12,17 @@ createAsm.prototype.Cascade = function () {
 	if (pfcIsMozilla())
 		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
 	Debugging("begin");
+	let TypeClass = pfcCreate("pfcModelType");
+	let CheckoutOptions = pfcCreate("pfcCheckoutOptions");
 	let session = pfcGetProESession();
 	let server = session.GetActiveServer();
-	//Debugging(server.Alias);
-	let TypeClass = pfcCreate("pfcModelType");
-	//let ModelDescriptor = pfcCreate("pfcModelDescriptor");
-	//let Model = pfcCreate("pfcModel");
-	//let windchillObject = ModelDescriptor.Create(TypeClass.MDL_PART, "8020pm001.prt", null);
-	//Debugging(windchillObject.InstanceName + ' ' + windchillObject.Type);
-	//let model = session.CurrentModel;
-	//Debugging(model.FileName);
+	let options = CheckoutOptions.Create();
+	options.Download = true;
+	let checkOut1 = server.CheckoutObjects(null, "8020pb002.prt", false, options);
+	//Debugging(checkOut1);
+
+
+
 
 
 
