@@ -18,7 +18,7 @@ createAsm.prototype.Cascade = function () {
 	let server = session.GetActiveServer();
 	let options = CheckoutOptions.Create();
 	options.Download = true;
-	let checkOut1 = server.CheckoutObjects(null, "8020pb002.prt", false, options);
+	let checkOut1 = server.CheckoutObjects(null, "8020pb015.prt", false, options);
 	//Debugging(checkOut1);
 
 
