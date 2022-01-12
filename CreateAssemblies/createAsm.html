@@ -27,13 +27,24 @@
 				alert("Exception occurred: " + pfcGetExceptionType(err));
 			}
 		}
+		function DeleteWS() {
+            if (pfcIsMozilla())
+                netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+            try {
+                let del = new createAsm();
+				del.RemoveObjectsFromWS();
+            }
+            catch (err) {
+                alert("Exception occurred: " + pfcGetExceptionType(err));
+            }
+        }
 
 	</script>
 
 	<div class="bg-dark text-white p-2">
 		<h1>Execute</h1>
 		<input class="btn btn-danger m-1 p-2" type=button value="Создать сборку" id=button1 name=button1 onclick="Cascade_wrapper()">
-		<!--<input class="btn btn-danger m-1 p-2" type=button value="pfcTree" id=button2 name=button2 onclick="Tree_wrapper()">-->
+		<input class="btn btn-danger m-1 p-2" type=button value="Очистить рабочую область" id=button2 name=button2 onclick="DeleteWS()">
 	</div>
 	<div id="debugging">
 		<h1>Debug:</h1>

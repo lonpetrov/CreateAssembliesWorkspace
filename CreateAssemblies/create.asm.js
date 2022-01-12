@@ -12,14 +12,55 @@ createAsm.prototype.Cascade = function () {
 	if (pfcIsMozilla())
 		netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
 	Debugging("begin");
+
+	//Creating weblink objects-->
 	let TypeClass = pfcCreate("pfcModelType");
 	let CheckoutOptions = pfcCreate("pfcCheckoutOptions");
+	let ModelDescriptor = pfcCreate("pfcModelDescriptor");
+	let listToDelete = pfcCreate("stringseq");
+
+	//Creating variables
+	let nameOfModel = "sh-10.prt";
+	let numberOfOrder = "M1999";
+	let lengthOfSH = 1000
+
+
+
+	//Action -->
 	let session = pfcGetProESession();
 	let server = session.GetActiveServer();
 	let options = CheckoutOptions.Create();
 	options.Download = true;
-	let checkOut1 = server.CheckoutObjects(null, "8020pb015.prt", false, options);
-	//Debugging(checkOut1);
+
+	let checkoutModel = server.CheckoutObjects(null, nameOfModel, false, options);
+	Debugging(checkoutModel);
+
+	let thisModelDescr = ModelDescriptor.CreateFromFileName(nameOfModel);
+	Debugging(thisModelDescr.GetFullName());
+
+	let retrivedModel = session.RetrieveModel(thisModelDescr)
+	Debugging(retrivedModel.FileName);
+
+	let newNameOfModel = numberOfOrder + '_' + retrivedModel.InstanceName + '_' + lengthOfSH;
+	Debugging(newNameOfModel);
+
+	let copiedModel = retrivedModel.CopyAndRetrieve(newNameOfModel, null);
+	Debugging(copiedModel.FileName);
+
+	let listRowsOfModel = copiedModel.ListRows();
+	Debugging(listRowsOfModel.Count);
+	for (let i = 0; i < listRowsOfModel.Count; i++) {
+		Debugging(listRowsOfModel.Item(i).InstanceName);
+		copiedModel.RemoveRow(listRowsOfModel.Item(i))
+		Debugging(listRowsOfModel.Item(i).InstanceName + '+');
+		listToDelete.Append("wtws://Windchill/M1017/" + listRowsOfModel.Item(i).InstanceName.toLowerCase() + ".prt"); // + ".prt"
+		Debugging(listToDelete.Item(i));
+    }
+
+	Debugging(listToDelete.Count);
+	//Debugging(session.GetCurrentWS());
+
+	server.RemoveObjects(listToDelete);
 
 
 
@@ -33,6 +74,13 @@ createAsm.prototype.Cascade = function () {
 
 	Debugging("end");
 }
+
+createAsm.prototype.RemoveObjectsFromWS = function () {
+	let session = pfcGetProESession();
+	let server = session.GetActiveServer();
+	server.RemoveObjects(null);
+}
+
 
 //get all items that have to be changed (materials, parts, assemlbies)
 createAsm.prototype.GetFlexSpecItems = function (list) {

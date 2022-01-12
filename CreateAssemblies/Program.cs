@@ -5,6 +5,9 @@ using System.Runtime.InteropServices;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Text;
+
+//System.Text.Encoding.Default
 
 namespace CreateAssemblies
 {
@@ -19,16 +22,22 @@ namespace CreateAssemblies
             string path = @"C:\config\pro\config.pro";
             string textOfConfig;
 
-            using (StreamReader config = new StreamReader(path, System.Text.Encoding.Default))
+            using (StreamReader config = new StreamReader(path))
             {
                 textOfConfig = config.ReadToEnd();
             }
+
+            //Encoding stdEncoding = Encoding.GetEncoding(textOfConfig);
+            //Console.WriteLine(stdEncoding.ToString());
+
+
+
             if (!textOfConfig.Contains(optionName))
             {
                 try
                 {
                     //Console.WriteLine(currentUrl);
-                    using (StreamWriter additionToConfig = new StreamWriter(path, true, System.Text.Encoding.Default))
+                    using (StreamWriter additionToConfig = new StreamWriter(path, true, Encoding.UTF8))
                     {
                         additionToConfig.WriteLine(optionName + " " + currentUrl);
                     }
@@ -53,7 +62,7 @@ namespace CreateAssemblies
                 try
                 {
                     //Console.WriteLine(currentUrl);
-                    using (StreamWriter additionToConfig = new StreamWriter(path, true, System.Text.Encoding.Default))
+                    using (StreamWriter additionToConfig = new StreamWriter(path, true, Encoding.UTF8))
                     {
                         additionToConfig.WriteLine(optionName + " " + currentUrl);
                     }
